@@ -1,0 +1,21 @@
+.card {
+    background-color: rgb(236, 234, 234);
+    padding: 10px;
+    width: fit-content;
+    max-width: 50%;
+    border-radius: 15px;
+    margin: 10px 0px;
+    border: none;
+    outline: none;
+}
+
+.message__text {
+    background-color:rgb(61, 128, 230);;
+    color: white;
+ 
+}
+
+.message__align {
+    text-align: right;
+}
+

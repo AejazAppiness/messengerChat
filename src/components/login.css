@@ -1,0 +1,36 @@
+.login__btnContainer  {
+    width: 100%;
+    height: 100vh;
+    background-color: rgb(37, 37, 223);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__btnContainer div {
+    height: 200px;
+    width: 260px;
+    border-radius: 8px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.login__btnContainer p {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.login__btnContainer button {
+    padding: 15px 20px;
+    font-size: 18px;
+    background-color: rgb(37, 37, 223);
+    cursor: pointer;
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 8px;
+}

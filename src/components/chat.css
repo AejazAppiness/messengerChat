@@ -1,0 +1,100 @@
+.chat {
+position: relative;
+width: 100%;
+}
+
+.chat__header  {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 0px 20px;
+    background-color: blue ;
+    height: 66px;
+}
+
+.chat__header button {
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.chat__body {
+    display: flex;
+    justify-content: space-evenly;
+    height: calc(100vh - 66px);
+    width: 100%;
+}
+
+.chat__messages {
+    border-left: 1px solid black ;
+    border-right: 1px solid black;
+    width: 50%;
+    padding: 20px;
+    position: relative;
+}
+
+
+.chat__userDetails {
+    padding: 20px;
+}
+
+
+.chat__users {
+    padding: 20px;
+}
+
+.chat__form {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 95%;
+}
+
+.chat__messages__container {
+    display: flex;
+    flex-direction: column-reverse;
+    overflow: scroll;
+    height: 95%;
+}
+
+.chat__sendBtn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: rgb(48, 48, 212);
+    margin: 10px;
+    font-size: 20px;
+    flex: 0;
+}
+
+.chat__input {
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    background-color: rgb(240, 240, 240);
+    padding: 20px;
+    flex: 1;
+    font-size: 20px;
+}
+
+.chat__emoji  {
+    position: absolute;
+    top: 5px;
+    right: 50px;
+    cursor: pointer;
+}
+
+.chat__emojiPicker {
+    position: absolute;
+    top: -430px;
+    right: 40px;
+}
