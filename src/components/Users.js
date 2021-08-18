@@ -1,15 +1,20 @@
-import React from 'react'
+import React from 'react';
+import './users.css'
 
-function Users({message, username}) {
+function Users({users, username, handleChatWith}) {
     const noUser = username || ''
-    const allUsers = [...new Set(message.map(item => item.message.username))];
-    const users = allUsers.filter(user => user !== noUser.displayName)
+    const usersList = users.filter(user => user.user !== noUser.displayName);
+    const allUsers = [...new Set(usersList.map(item => item.user))];
     return (
         <div>
-            {users.map((user, index) => <p key={index} 
-            
-            // onClick={() => handleChatWith(user)}
-            >{user}</p> )}
+            {allUsers.map((user, index) => {
+                return <p className="user" key={index} onClick={() => {
+                    handleChatWith(user)
+                }}>{user}</p>
+            })}
+            {/* {usersList.map((user, index) => <p key={index} onClick={() => {
+                handleChatWith(user)
+            }}>{user.user}</p> )} */}
         </div>
     )
 }
