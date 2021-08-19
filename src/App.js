@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import {Switch, Route, useHistory} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import firebase from 'firebase'
 import Login from './components/Login'
 import Chat from './components/Chat';
@@ -11,12 +11,11 @@ function App() {
   const [input, setInput] = useState('');
   const [message, setMessage] = useState([]);
   const [chatWith, setChatWith] = useState({});
-  const [singleChat, setSingleChat] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [showChat, setShowChat] = useState(null);
   const [login, setLogin] = useState(null)
   const [users, setUsers] = useState([])
-  const history = useHistory()
 
+  console.log(message);
 
   const handleChange = (e) => {
     setInput(e.target.value)
@@ -24,11 +23,10 @@ function App() {
 
   const handleChatWith = (name) => {
     const otherPerson = users.find(item => item.user === name)
+    console.log(otherPerson);
     setChatWith(otherPerson)
-    setSingleChat(otherPerson)
-
+    setShowChat(otherPerson)
   }
-
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -36,33 +34,25 @@ function App() {
     setInput('');
   }
 
-  const sendUser = () => {
-    db.collection(`users`).add({user: username.displayName, uid: username.uid})
-  }
-
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
+      console.log(auth);
       setUsername(user);
-      setLogin(user);
-      if(login) {
-        console.log('log in app component');
-        history.push('/Chat');
-        setLoading(false)
-        sendUser()
-      }
     })
     
-  }, [login, history])
+  }, [username])
   
 
   useEffect(() => {
         
     db.collection('messages').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-      setMessage(snapshot.docs.map(doc => {
-        if((doc.data().user_uid_1 == username.uid && doc.data().user_id_2 == chatWith.uid) || (doc.data().user_uid_1 == chatWith.uid && doc.data().user_id_2 == username.uid)){
+      const messages = snapshot.docs.map(doc => {
+        if((doc.data().user_uid_1 === username.uid && doc.data().user_id_2 === chatWith.uid) || (doc.data().user_uid_1 === chatWith.uid && doc.data().user_id_2 === username.uid)){
           return {id: doc.id, message: doc.data()}
         } 
-      })) 
+      });
+      const filteredMessages = messages.filter(item => item != undefined);
+      setMessage(filteredMessages);
      })
     db.collection('users').onSnapshot(snapshot => {
       setUsers(snapshot.docs.map(doc => (doc.data())))
@@ -73,8 +63,11 @@ function App() {
   return (
     <div className="App">
         <Switch>
-        <Route path="/Chat" exact render={(props) => loading ? 'loading' : <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} singleChat={singleChat}/> } />
-          <Route path='/' exact  render={(props) => <Login {...props} sendUser={sendUser} login={login}/>} />
+
+          <Route path="/Chat" exact render={(props) =>  <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} showChat={showChat}/> } />
+
+          <Route path='/' exact  render={(props) => <Login {...props} setLogin={setLogin} login={login}/>} />
+
         </Switch>
     </div>
   );

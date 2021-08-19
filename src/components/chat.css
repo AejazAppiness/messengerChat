@@ -49,6 +49,17 @@ width: 100%;
     padding: 20px;
 }
 
+.chat__person {
+    background-color: cornflowerblue;
+    padding: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.chat__person span {
+    text-transform: capitalize;
+}
+
 .chat__form {
     position: absolute;
     bottom: 0;
@@ -60,8 +71,8 @@ width: 100%;
 .chat__messages__container {
     display: flex;
     flex-direction: column-reverse;
-    overflow: scroll;
-    height: 95%;
+    overflow-y: scroll;
+    height: 85%;
 }
 
 .chat__sendBtn {

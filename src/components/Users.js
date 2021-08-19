@@ -12,9 +12,6 @@ function Users({users, username, handleChatWith}) {
                     handleChatWith(user)
                 }}>{user}</p>
             })}
-            {/* {usersList.map((user, index) => <p key={index} onClick={() => {
-                handleChatWith(user)
-            }}>{user.user}</p> )} */}
         </div>
     )
 }
