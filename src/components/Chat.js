@@ -9,7 +9,7 @@ import { Picker } from 'emoji-mart'
 import './chat.css'
 
 function Chat(props) {
-    const {input, handleChange, message, sendMessage, setInput, username, users, handleChatWith, showChat, chatWith } = props
+    const {input, handleChange, message, sendMessage, setInput, username, users, handleChatWith, showChat, chatWith, formatDate } = props
     const [showEmoji, setShowEmoji] = useState(false);
 
       const addEmoji = (e) => {
@@ -59,7 +59,7 @@ function Chat(props) {
                <div className='chat__messages__container'>
                {
                     message.map((item) => {
-                        return item === undefined ? null : <Message username={username} message={item.message} key={item.id} />
+                        return item === undefined ? null : <Message username={username} message={item.message} formatDate={formatDate} key={item.id} />
                     })
                 }
                </div>

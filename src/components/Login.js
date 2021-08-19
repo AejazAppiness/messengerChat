@@ -1,17 +1,14 @@
 import React from 'react'
 import firebase from 'firebase';
-import { auth, db} from '../firebase'
+import { db} from '../firebase'
 import { useHistory } from 'react-router';
 import './login.css'
 
 
-function Login({login, setLogin}) {
+function Login() {
 const history = useHistory();
-// const [userData, setUserData] = useState('')
-// console.log(userData);
-console.log(auth);
 
-const setUsers = async () => {
+const setUsers = () => {
     firebase.auth()
   .signInWithPopup(new firebase.auth.GoogleAuthProvider())
   .then((result) => {

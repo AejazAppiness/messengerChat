@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import {Switch, Route} from 'react-router-dom'
-import firebase from 'firebase'
-import Login from './components/Login'
+import {Switch, Route} from 'react-router-dom';
+import firebase from 'firebase';
+import Login from './components/Login';
 import Chat from './components/Chat';
-import {auth, db} from './firebase'
+import {auth, db} from './firebase';
+import { formatRelative } from 'date-fns';
 import './App.css';
 
 function App() {
@@ -12,18 +13,16 @@ function App() {
   const [message, setMessage] = useState([]);
   const [chatWith, setChatWith] = useState({});
   const [showChat, setShowChat] = useState(null);
-  const [login, setLogin] = useState(null)
-  const [users, setUsers] = useState([])
-
-  console.log(message);
+  const [login, setLogin] = useState(null);
+  const [users, setUsers] = useState([]);
 
   const handleChange = (e) => {
     setInput(e.target.value)
   }
 
+  
   const handleChatWith = (name) => {
     const otherPerson = users.find(item => item.user === name)
-    console.log(otherPerson);
     setChatWith(otherPerson)
     setShowChat(otherPerson)
   }
@@ -36,11 +35,21 @@ function App() {
 
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-      console.log(auth);
       setUsername(user);
     })
     
-  }, [username])
+
+  }, [username]);
+
+  const formatDate = date => {
+    let formattedDate = '';
+    if (date) {
+      formattedDate = formatRelative(date, new Date());
+      formattedDate =
+        formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
+    }
+    return formattedDate;
+  };
   
 
   useEffect(() => {
@@ -52,7 +61,7 @@ function App() {
         } 
       });
       const filteredMessages = messages.filter(item => item != undefined);
-      setMessage(filteredMessages);
+      setMessage(filteredMessages)
      })
     db.collection('users').onSnapshot(snapshot => {
       setUsers(snapshot.docs.map(doc => (doc.data())))
@@ -64,7 +73,7 @@ function App() {
     <div className="App">
         <Switch>
 
-          <Route path="/Chat" exact render={(props) =>  <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} showChat={showChat}/> } />
+          <Route path="/Chat" exact render={(props) =>  <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} showChat={showChat} formatDate={formatDate}/> } />
 
           <Route path='/' exact  render={(props) => <Login {...props} setLogin={setLogin} login={login}/>} />
 

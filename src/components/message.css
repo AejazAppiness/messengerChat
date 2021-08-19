@@ -4,7 +4,8 @@
     width: fit-content;
     max-width: 50%;
     border-radius: 15px;
-    margin: 10px 0px;
+    margin-top: 15px;
+    margin-bottom: 4px;
     border: none;
     outline: none;
 }

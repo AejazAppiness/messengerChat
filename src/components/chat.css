@@ -72,7 +72,7 @@ width: 100%;
     display: flex;
     flex-direction: column-reverse;
     overflow-y: scroll;
-    height: 85%;
+    height: 80%;
 }
 
 .chat__sendBtn {
