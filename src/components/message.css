@@ -7,15 +7,24 @@
     margin: 10px 0px;
     border: none;
     outline: none;
+
 }
 
 .message__text {
     background-color:rgb(61, 128, 230);;
     color: white;
- 
 }
+
+/* .audio-element {
+    margin-bottom: 10px;
+} */
 
 .message__align {
     text-align: right;
+}
+
+.img {
+ display: flex;
+ justify-content: flex-end;
 }
 

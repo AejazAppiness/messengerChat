@@ -3,7 +3,7 @@ import {Switch, Route} from 'react-router-dom'
 import firebase from 'firebase'
 import Login from './components/Login'
 import Chat from './components/Chat';
-import {auth, db} from './firebase'
+import {auth, db, storage} from './firebase'
 import './App.css';
 
 function App() {
@@ -12,10 +12,13 @@ function App() {
   const [message, setMessage] = useState([]);
   const [chatWith, setChatWith] = useState({});
   const [showChat, setShowChat] = useState(null);
-  const [login, setLogin] = useState(null)
-  const [users, setUsers] = useState([])
+  const [login, setLogin] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [imgFileUrl, setImgFileUrl] = useState(null);
+  const [songFileUrl, setSongFileUrl] = useState(null);
 
   console.log(message);
+  console.log(songFileUrl);
 
   const handleChange = (e) => {
     setInput(e.target.value)
@@ -28,10 +31,13 @@ function App() {
     setShowChat(otherPerson)
   }
 
+
   const sendMessage = (e) => {
     e.preventDefault();
-    db.collection("messages").add({username: username.displayName, user_uid_1: username.uid, user_id_2: chatWith.uid, message:input, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
+    db.collection("messages").add({username: username.displayName, user_uid_1: username.uid, user_id_2: chatWith.uid, message:input, avatar:imgFileUrl, audio: songFileUrl, timestamp: firebase.firestore.FieldValue.serverTimestamp()});
     setInput('');
+    setImgFileUrl(null);
+    setSongFileUrl(null)
   }
 
   useEffect(() => {
@@ -64,7 +70,7 @@ function App() {
     <div className="App">
         <Switch>
 
-          <Route path="/Chat" exact render={(props) =>  <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} showChat={showChat}/> } />
+          <Route path="/Chat" exact render={(props) =>  <Chat {...props} message={message} sendMessage={sendMessage} input={input} handleChange={handleChange} setInput={setInput} username={username} users={users} handleChatWith={handleChatWith} chatWith={chatWith} showChat={showChat} setImgFileUrl={setImgFileUrl} imgFileUrl={imgFileUrl} songFileUrl={songFileUrl} setSongFileUrl={setSongFileUrl}/> } />
 
           <Route path='/' exact  render={(props) => <Login {...props} setLogin={setLogin} login={login}/>} />
 

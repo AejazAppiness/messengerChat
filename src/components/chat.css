@@ -24,6 +24,15 @@ width: 100%;
     cursor: pointer;
 }
 
+.image-upload>input {
+    display: none;
+  }
+
+  .image-upload {
+      font-size: 25px;
+      padding-top: 8px;
+  }
+
 .chat__body {
     display: flex;
     justify-content: space-evenly;
@@ -108,4 +117,5 @@ width: 100%;
     position: absolute;
     top: -430px;
     right: 40px;
+    z-index: 1;
 }

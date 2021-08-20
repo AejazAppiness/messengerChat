@@ -3,11 +3,19 @@ import './message.css'
 
 function Message({username, message}) {
     const isUser = username && username.displayName === message.username ;
+    console.log(message.audio);
     return (
         <div className={isUser ? "message__align" : ' '}>
-            <button className={isUser ? "message__text card" : 'card '}>{!isUser && `${message.username || 'unknown user'}: `} {message.message}</button>
+             {message.audio && <audio className="audio-element" controls>
+                    <source src={message.audio} ype="audio/mpeg" ></source>
+                 </audio>}
+                 {message.avatar && <div className={isUser ? "img" : ''} >
+                    <img style={{width: "100px"}} src={message.avatar}/>
+                     </div>}
+            {message.message && <button className={isUser ? "message__text card" : 'card '}>    
+            {message.message}</button> }
         </div>
     )
 }
 
-export default Message
+export default Message;
