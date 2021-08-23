@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { auth, storage } from '../firebase';
 import {IoSend} from 'react-icons/io5'
 import UserDetails from './UserDetails'
@@ -6,14 +6,18 @@ import Message from './Message'
 import Users from './Users';
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart';
-import {IoIosAttach} from 'react-icons/io' 
+import {FiUpload} from 'react-icons/fi' 
 import './chat.css'
 
 function Chat(props) {
-    const {input, handleChange, message, sendMessage, setInput, username, users, handleChatWith, showChat, chatWith, setSongFileUrl , songFileUrl, imgFileUrl, setImgFileUrl} = props
+    const {input, handleChange, message, sendMessage, setInput, username, users, handleChatWith, showChat, chatWith, setSongFileUrl , songFileUrl, imgFileUrl, setImgFileUrl, setPdfFileUrl, setVideoFileUrl, pdfFileUrl, videoFileUrl} = props
     const [showEmoji, setShowEmoji] = useState(false);
-    const [metaData, setMetaData] = useState({})
+    // const [file, setFile] = useState('');
+    // useEffect(() => {
+    //     setFileUrl(songFileUrl || imgFileUrl)
+    // }, [songFileUrl, imgFileUrl])
    
+    // console.log(fileUrl);
 
     const addEmoji = (e) => {
         let emoji = e.native
@@ -22,28 +26,39 @@ function Chat(props) {
     }
 
     const onFileChange = async (e) => {
-        const file = e.target.files[0];
+        const file = e.target.files[0]; 
         const storageRef = storage.ref();
-        const fileRef = storageRef.child(file.name);
-        const type = file.type ? file.type : 'NOT SUPPORTED';
-        const fileType = type.substring(0, 5);
-        console.log(fileType);
-        const size = file.size ? file.size : 'NOT SUPPORTED';
-        if(size < 10485760) {
-            if(fileType === "audio") {
+        let fileRef, type, fileType, size, url ;
+        
+        if(file){
+            fileRef = storageRef.child(file.name);
+             type = file.type ? file.type : 'NOT SUPPORTED';
+             fileType = type.split('/').pop();
+             size = file.size ? file.size : 'NOT SUPPORTED';
+             if(size < 10485760) {
                 await fileRef.put(file);
-                setSongFileUrl(await fileRef.getDownloadURL());
-            } else if( fileType === "image" ){
-                await fileRef.put(file);
-                setImgFileUrl(await fileRef.getDownloadURL());
+                url = await fileRef.getDownloadURL()
+                if(fileType === "mpeg" || fileType === "ogg") {
+                    console.log("audio got executed");
+                    setSongFileUrl(url);
+                } else if( fileType === "png" || fileType === "jpeg" ){
+                    console.log("photo got executed");
+                    setImgFileUrl(url);
+                } else if (fileType === "pdf") {
+                    console.log("pdf got executed");
+                    setPdfFileUrl(url);
+                } else if (fileType === "mp4" || fileType === "avi") {
+                    console.log("video got executed");
+                    setVideoFileUrl(url);
+                } else {
+                    return
+                }
             } else {
-                return
-            }
-        } else {
-            prompt('please select a file less than 10mb')
-        } 
+                alert('please select a file less than 10mb')
+            } 
+        }
+         
       }
-    
       
     return (
         <div className="chat">
@@ -65,10 +80,11 @@ function Chat(props) {
                    {showChat ? <div className="chat__person">
                         <p>Say Hello to <span>{chatWith.user}</span></p>
                     </div> : null} 
+                    {/* <input type='file' id="file-input" onChange={onFileChange}/> */}
                     {showChat ? <form className="chat__form">
                     <span className="image-upload">
-                        <label htmlFor="file-input">
-                            <IoIosAttach />
+                        <label htmlFor="file-input" className="chat__upload">
+                            <FiUpload />
                         </label>
 
                         <input type='file' id="file-input" onChange={onFileChange}/>
@@ -76,7 +92,7 @@ function Chat(props) {
                         
                         <input placeholder='enter text' value={input} onChange={handleChange} className="chat__input"/>
 
-                        <button type='submit' onClick={sendMessage} className="chat__sendBtn"> <IoSend /></button>
+                        <button type='submit' disable = {!imgFileUrl && !videoFileUrl && !pdfFileUrl && !songFileUrl && !input} onClick={sendMessage} className={!imgFileUrl && !videoFileUrl && !pdfFileUrl && !songFileUrl && !input   ? "chat__sendBtn__disabled" : "chat__sendBtn" }> <IoSend /></button>
                         {showEmoji && 
                         <span className='chat__emojiPicker'>
                             <Picker
@@ -92,7 +108,7 @@ function Chat(props) {
                <div className='chat__messages__container'>
                {
                     message.map((item) => {
-                        return item === undefined ? null : <Message username={username} message={item.message} key={item.id} />
+                        return item === undefined ? null : <Message username={username} songFileUrl={songFileUrl} message={item.message} key={item.id} />
                     })
                 }
                </div>

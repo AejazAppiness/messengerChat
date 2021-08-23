@@ -15,16 +15,38 @@
     color: white;
 }
 
-/* .audio-element {
-    margin-bottom: 10px;
-} */
-
 .message__align {
     text-align: right;
 }
 
-.img {
+
+.message__img__user, .message__video__user  {
  display: flex;
  justify-content: flex-end;
+ margin-bottom: 20px ;
 }
 
+.message__img, .message__video {
+    margin-bottom: 20px;
+}
+
+.message__document  {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 50%;
+    background-color:rgb(61, 128, 230);;
+}
+
+.message__document__notuser {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 50%;
+}

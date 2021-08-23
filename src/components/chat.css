@@ -28,10 +28,24 @@ width: 100%;
     display: none;
   }
 
-  .image-upload {
+.image-upload {
       font-size: 25px;
       padding-top: 8px;
   }
+
+.chat__upload {
+    margin-right: 10px;
+}
+
+.chat__sendBtn__disabled {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    margin: 10px;
+    font-size: 20px;
+    flex: 0;
+    color: lightgray;
+}
 
 .chat__body {
     display: flex;
